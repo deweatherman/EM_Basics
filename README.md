@@ -18,7 +18,7 @@ Goals are:
 - Code Maintainability
 - Open Science development: Open Source and Transparency
 
-## "EM Basics routines and parts
+## "EM Basics" routines and parts
 
 For now there is no higher level structure other than using classes that are extendable when possible. 
  
