@@ -95,42 +95,89 @@ class waveForm:
     with an external signal (csv containing time, amplitude values, comma
     separated)."""
     
-    def __init__(self, E0Vector, waveVector):
-        self.E0Vector = E0Vector
-        self.waveVector = waveVector
+    def __init__(self, time, amplitude, 
+                 timeMultiplier = 1.0, amplitudeMultiplier = 1.0):  # Basic constructor (from time and amplitude arrays)
+        """Baseline constructor; time and amplitude scales 
+        are provided via multipliers. Multipliers default to 1.0.
+        Inputs are: 
+        two numpy arrays with time and amplitude data 
+        and
+        two floats for defining the scale of the time and amplitude
+        respectively."""         
+        self.time = time*timeMultiplier
+        self.amplitude = amplitude*amplitudeMultiplier  
+        if (len(time)!=len(amplitude)):
+            raise TypeError("Time and amplitude must have the same lenght.")
+        
     def __str__(self):
-        return f"{self.E0Vector}*(exp(1j*dot({self.waveVector},position)))"   
+        return f"{self.amplitude}({self.time})"   
+        
+    @classmethod
+    def from_time_csv(cls, pathTocsv, 
+                      timeMultiplier = 1.0, amplitudeMultiplier = 1.0):  # Constructor 1 (from csv)
+        """csv constructor; time and amplitude scales 
+        are provided via multipliers. Multipliers default to 1.0.
+        Inputs are :
+        a string with the path to the csv file containing
+        the signal definition (comma separated file),
+        and
+        two floats for defining the scale of the time and amplitude
+        respectively."""              
+        if type(pathTocsv) != str:
+            raise TypeError("Path to signal file must be a string")
+            
+        array = np.genfromtxt(pathTocsv, delimiter=",")   # Read from comma delimited csv
+        
+        if (array.shape[1]!=2):
+            raise TypeError("Waveform can only be defined with time \
+                             and amplitude (2 arrays); might be extended in the future.")
+            
+        if (len(array[:,0]) != len(array[:,1])):
+            raise TypeError("Length of time and amplitude arrays must be the same.")
+            
+        return cls(time = (array[:,0]-array[0,0]), 
+                   amplitude = array[:,1],
+                   timeMultiplier = timeMultiplier, 
+                   amplitudeMultiplier = amplitudeMultiplier)  # time is refered to "zero"   
+
     
-    #Methods of class planeWave:
+    #Methods of class waveForm:
     
-    def obsEField(self, obs):  # Compute E field at location obs
-        """'self.obsEField(obs)' which returns the electric field (including the phase term, therefore 
-        complex) of the plane wave at location 'obs'. """
-        return self.E0Vector*np.exp(1j*self.waveVector.dot(obs))        
+    def interpolateSignal(self, ninterpolated):  # Interpolates signal to ninterpolated samples
+        # TODO: Add tests
+        """ """
+        time_interp = np.linspace(0, (self.time[-1]-self.time[0]), ninterpolated)
+        amplitude_interp = np.interp(time_interp, self.time, self.amplitude)
+        
+        return time_interp, amplitude_interp         
+        
+        
         
  
 # Creating class with multiple constructors in Python
 # circle.py
 
-import math
-
-class Circle:
-    def __init__(self, radius):
-        self.radius = radius
-
-    @classmethod
-    def from_diameter(cls, diameter):
-        return cls(radius=diameter / 2)
+#import math
+#
+#class Circle:
+#    def __init__(self, radius):
+#        self.radius = radius
+#
+#    @classmethod
+#    def from_diameter(cls, diameter):
+#        return cls(radius=diameter / 2)
 
     # ...
 # And then:
->> from circle import Circle
 
->> Circle.from_diameter(84)
-Circle(radius=42.0)
 
->> circle.area()
-5541.769440932395
->> circle.perimeter()
-263.89378290154264
+#>> from circle import Circle
+#
+#>> Circle.from_diameter(84)
+#Circle(radius=42.0)
+#
+#>> circle.area()
+#5541.769440932395
+#>> circle.perimeter()
+#263.89378290154264
  
