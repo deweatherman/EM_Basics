@@ -1,4 +1,5 @@
 import numpy as np
+import scipy
         
 
 def uerf(t,ta,tb,td,tf):
