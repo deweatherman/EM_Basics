@@ -1,3 +1,8 @@
+#MIT License
+
+#Copyright (c) 2023 Mario Echeverri Bautista
+
+
 import numpy as np
 import vector
 
