@@ -15,7 +15,7 @@ def uerf(t,ta,tb,td,tf):
     tf = 90 to 10 % fall-time"""
     arg1 = (t-tb)/(0.55*td)
     arg2 = (t-ta)/(0.55*tf)
-    result = 0.5*(scipy.special.erf(arg1) - scipy.special.erf(arg2)) 
+    result = 0.5*(scipy.special.erf(arg2) - scipy.special.erf(arg1)) 
     return result
     
 def spectrumRealSignal(n, fft_E):
@@ -96,7 +96,7 @@ class waveForm:
     def interpolateSignal(self, ninterpolated):  # Interpolates signal to ninterpolated samples
         # TODO: Add tests
         """ """
-        time_interp = np.linspace(0, (self.time[-1]-self.time[0]), ninterpolated)
+        time_interp = np.linspace(self.time[0], self.time[-1], ninterpolated)
         amplitude_interp = np.interp(time_interp, self.time, self.amplitude)
         
         return time_interp, amplitude_interp         
