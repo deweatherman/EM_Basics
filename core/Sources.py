@@ -36,9 +36,9 @@ def linPolEField(E0Inc, thetaInRad, phiInRad, alphaInRad):
         
         EIncVector = vector.obj(x = ExProj, y = EyProj, z = EzProj)
 
-    print("Ex: ",EIncVector.x)
-    print("Ey: ",EIncVector.y)
-    print("Ez: ",EIncVector.z)
+    #print("Ex: ",EIncVector.x)
+    #print("Ey: ",EIncVector.y)
+    #print("Ez: ",EIncVector.z)
 
     return EIncVector
 
