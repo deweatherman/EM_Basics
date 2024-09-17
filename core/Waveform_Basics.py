@@ -11,12 +11,14 @@ import pandas as pd
 
 def uerf(t,ta,tb,td,tf):
     """ Quasi-rectangular unitary pulse function.
+    Definition can be found in pag 21 of:
+    https://ece-research.unm.edu/summa/notes/SDAN/0041.pdf
     ta-tb = FWHM
     td = 10 to 90 % rise-time
     tf = 90 to 10 % fall-time"""
     arg1 = (t-tb)/(0.55*td)
     arg2 = (t-ta)/(0.55*tf)
-    result = 0.5*(scipy.special.erf(arg2) - scipy.special.erf(arg1)) 
+    result = 0.5*(scipy.special.erf(arg1) - scipy.special.erf(arg2)) 
     return result
       
         
