@@ -63,4 +63,4 @@ class planeWave:
         """'self.obsEField(obs)' which returns the electric field 
         (including the phase term, therefore complex) of the plane wave 
         at location 'obs'. 'obs' must have shape (1,3) """
-        return self.E0Vector*np.exp(1j*np.dot(obs.reshape((1,3)), self.waveVector))
+        return self.E0Vector*np.exp(1j*np.tensordot(obs.reshape((1,3)), self.waveVector, axes=1))
